@@ -9,11 +9,11 @@
 
 
 ## Easy Way to Run
-- npm install, to Install all dependencies
+- Install all dependencies
 ```sh
 $ npm install
 ```
-- Run Json-Server: 
+- Run Json-Server (runs on http://localhost:3000): 
 ```sh
 $ npm run json-server
 ```
@@ -22,8 +22,8 @@ $ npm run json-server
 $ ng-serve
 ```
 
+## Usefull Info?
+> Fake Data are stored on `db.json` file in the root directory.
 
-
-## License 
-
+## License
 MIT
