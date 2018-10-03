@@ -17,6 +17,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AuthGuard } from './services/auth-guard.service';
 import { HttpModule } from '@angular/http';
 import { ClientListComponent } from './client-list/client-list.component';
+import { ClientDetailsComponent } from './client-details/client-details.component';
+import { ApiService } from './services/api.service';
+import { ClientService } from './services/client.service';
 
 @NgModule({
   declarations: [
@@ -24,7 +27,8 @@ import { ClientListComponent } from './client-list/client-list.component';
     LoginComponent,
     HomeComponent,
     ContactComponent,
-    ClientListComponent
+    ClientListComponent,
+    ClientDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +38,7 @@ import { ClientListComponent } from './client-list/client-list.component';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule
   ],
-  providers: [AuthService, AuthGuard],
+  providers: [AuthService, AuthGuard, ApiService, ClientService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

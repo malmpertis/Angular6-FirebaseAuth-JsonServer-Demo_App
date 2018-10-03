@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../services/api.service';
 import { Client } from '../models/client';
+import { ClientService } from '../services/client.service';
 
 @Component({
   selector: 'app-client-list',
@@ -9,11 +10,10 @@ import { Client } from '../models/client';
   providers: [ApiService]
 })
 export class ClientListComponent implements OnInit {
-
   errorMsg: Boolean = false;
   clients: Client[] = [];
 
-  constructor(private apiService: ApiService) { }
+  constructor(private apiService: ApiService, private clientService: ClientService) { }
 
   ngOnInit() {
     this.apiService.getAllClients(1).subscribe(
@@ -24,4 +24,7 @@ export class ClientListComponent implements OnInit {
     );
   }
 
+  displayDetails(cl) {
+    this.clientService.clientSelected.emit(cl);
+  }
 }

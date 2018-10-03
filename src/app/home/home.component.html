@@ -1,3 +1,11 @@
-<div class="col-md-6">
-  <app-client-list></app-client-list>
+<div class="row">
+  <div class="col-md-6">
+    <app-client-list></app-client-list>
+  </div>
+  <div class="col-md-6">
+    <app-client-details *ngIf="selectedClient; else infoText" [client]="selectedClient"></app-client-details>
+    <ng-template #infoText>
+      <p>Please select a Client to display more details</p>
+    </ng-template>
+  </div>
 </div>

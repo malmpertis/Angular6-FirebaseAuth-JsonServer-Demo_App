@@ -7,13 +7,13 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let client of clients">
+      <tr *ngFor="let client of clients" (click)="displayDetails(client)" style="cursor: pointer;">
         <td>{{client.name}}</td>
         <td>{{client.company}}</td>
       </tr>
     </tbody>
   </table>
-  
+
   <nav aria-label="Page navigation">
     <ul class="pagination justify-content-center">
       <li class="page-item disabled">
@@ -29,4 +29,5 @@
   </nav>
 </div>
 
-<div *ngIf="errorMsg" style="color:red">There was a problem retrieving the data from the database. Please try again later.</div>
+<div *ngIf="errorMsg" style="color:red">There was a problem retrieving the data from the database. Please try again
+  later.</div>
