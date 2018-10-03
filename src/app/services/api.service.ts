@@ -3,7 +3,8 @@ import { environment } from '../../environments/environment';
 import { Http } from '@angular/http';
 import { Client } from '../models/client';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 const API_URL = environment.apiUrl;
 
@@ -15,11 +16,14 @@ export class ApiService {
     constructor(private http: Http) { }
 
     // API: GET /clients
-    public getAllClients(): Observable<Client[]> {
-        return this.http.get(API_URL + '/clients')
+    public getAllClients(page): Observable<Client[]> {
+        return this.http.get(API_URL + '/clients?_page=' + page)
             .pipe(map(response => {
+                console.log(response);
                 const clients = response.json();
                 return clients.map((client) => new Client(client));
+            })).pipe(catchError(error => {
+                return throwError(error);
             }));
     }
 

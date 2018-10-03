@@ -10,16 +10,17 @@ import { Client } from '../models/client';
 })
 export class ClientListComponent implements OnInit {
 
-
+  errorMsg: Boolean = false;
   clients: Client[] = [];
 
   constructor(private apiService: ApiService) { }
 
   ngOnInit() {
-    this.apiService.getAllClients().subscribe(
+    this.apiService.getAllClients(1).subscribe(
       (clients) => {
         this.clients = clients;
-      }
+      },
+      (error) => { console.log(error); this.errorMsg = true; }
     );
   }
 

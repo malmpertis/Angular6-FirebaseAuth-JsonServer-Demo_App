@@ -10,11 +10,7 @@ export class Client {
     };
     phone: string;
     website: string;
-    company: {
-        name: string;
-        catchPhrase: string;
-        bs: string;
-    };
+    company: string;
 
     constructor(values: Object = {}) {
         Object.assign(this, values);
