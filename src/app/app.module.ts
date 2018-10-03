@@ -15,17 +15,21 @@ import { ContactComponent } from './contact/contact.component';
 import { AuthService } from './services/auth.service';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthGuard } from './services/auth-guard.service';
+import { HttpModule } from '@angular/http';
+import { ClientListComponent } from './client-list/client-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     HomeComponent,
-    ContactComponent
+    ContactComponent,
+    ClientListComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    HttpModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule
