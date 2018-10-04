@@ -4,4 +4,5 @@ import { EventEmitter } from '@angular/core';
 export class ClientService {
     clientSelected = new EventEmitter<Client>();
     totalItems = new EventEmitter<String>();
+    deletedItem = new EventEmitter<number>();
 }

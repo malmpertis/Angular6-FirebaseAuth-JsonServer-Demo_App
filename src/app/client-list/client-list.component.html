@@ -1,74 +1,72 @@
 <div *ngIf="!errorMsg && clients.length>0">
-  <button type="button" (click)="addNew = !addNew" class="btn btn-primary">Add new client</button>
-  <br>
-  <div [hidden]="!addNew">
-    <br>
-    <form (ngSubmit)="onAddNew(f)" #f="ngForm">
-      <div class="form-group">
-        <input type="text" class="form-control" placeholder="Full Name" id="name" name="name" ngModel>
-      </div>
-      <div class="form-group">
-        <input type="text" class="form-control" placeholder="Username" id="username" name="username" ngModel>
-      </div>
-      <div class="form-group">
-        <input type="email" class="form-control" placeholder="Email" id="email" name="email" ngModel>
-      </div>
-      <div class="form-group">
-        <input type="text" class="form-control" placeholder="Street" id="street" name="street" ngModel>
-      </div>
-      <div class="form-group">
-        <input type="text" class="form-control" placeholder="Suite" id="suite" name="suite" ngModel>
-      </div>
-      <div class="form-group">
-        <input type="text" class="form-control" placeholder="City" id="city" name="city" ngModel>
-      </div>
-      <div class="form-group">
-        <input type="text" class="form-control" placeholder="Zipcode" id="zipcode" name="zipcode" ngModel>
-      </div>
-      <div class="form-group">
-        <input type="text" class="form-control" placeholder="Phone" id="phone" name="phone" ngModel>
-      </div>
-      <div class="form-group">
-        <input type="text" class="form-control" placeholder="Website" id="website" name="website" ngModel>
-      </div>
-      <div class="form-group">
-        <input type="text" class="form-control" placeholder="Company" id="company" name="company" ngModel>
-      </div>
-      <div class="clearfix card-footer">
-        <button class="btn btn-danger float-left" type="button" (click)="onAddCancel(f)">Cancel</button>
-        <button type="submit" class="btn btn-success float-right">Add</button>
-      </div>
-    </form>
+  <div [hidden]="addNew">
+    <button type="button" (click)="addNew = !addNew" class="btn btn-primary">Add new client</button>
+    <br><br>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Company</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let client of clients" (click)="displayDetails(client)" style="cursor: pointer;">
+          <td>{{client.name}}</td>
+          <td>{{client.company}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <nav aria-label="Page navigation">
+      <ul class="pagination justify-content-center">
+        <li class="page-item" [ngClass]="currentPage==1? 'disabled': ''"><a (click)="onPageChange(currentPage-1)" class="page-link"
+            tabindex="-1">Previous</a></li>
+        <li *ngFor="let dummy of ' '.repeat(totalPages).split(''), let x = index" class="page-item" [ngClass]="(x+1)==currentPage? 'active':''"><a
+            (click)="onPageChange(x+1)" class="page-link active">{{x+1}}</a></li>
+        <li class="page-item" [ngClass]="currentPage==totalPages? 'disabled': ''"><a (click)="onPageChange(currentPage+1)"
+            class="page-link" tabindex="-1">Next</a></li>
+      </ul>
+    </nav>
   </div>
-
-  <br>
-
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Company</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let client of clients" (click)="displayDetails(client)" style="cursor: pointer;">
-        <td>{{client.name}}</td>
-        <td>{{client.company}}</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <nav aria-label="Page navigation">
-    <ul class="pagination justify-content-center">
-      <li class="page-item" [ngClass]="currentPage==1? 'disabled': ''"><a (click)="onPageChange(currentPage-1)" class="page-link"
-          tabindex="-1">Previous</a></li>
-      <li *ngFor="let dummy of ' '.repeat(totalPages).split(''), let x = index" class="page-item" [ngClass]="(x+1)==currentPage? 'active':''"><a
-          (click)="onPageChange(x+1)" class="page-link active">{{x+1}}</a></li>
-      <li class="page-item" [ngClass]="currentPage==totalPages? 'disabled': ''"><a (click)="onPageChange(currentPage+1)"
-          class="page-link" tabindex="-1">Next</a></li>
-    </ul>
-  </nav>
+  <div *ngIf="errorMsg" style="color:red">There was a problem retrieving the data from the database. Please try again
+    later.</div>
 </div>
-
-<div *ngIf="errorMsg" style="color:red">There was a problem retrieving the data from the database. Please try again
-  later.</div>
+<div [hidden]="!addNew">
+  <h4>Add New User</h4>
+  <form (ngSubmit)="onAddNew(f)" #f="ngForm">
+    <div class="form-group">
+      <input type="text" class="form-control" placeholder="Full Name" id="name" name="name" ngModel>
+    </div>
+    <div class="form-group">
+      <input type="text" class="form-control" placeholder="Username" id="username" name="username" ngModel>
+    </div>
+    <div class="form-group">
+      <input type="email" class="form-control" placeholder="Email" id="email" name="email" ngModel>
+    </div>
+    <div class="form-group">
+      <input type="text" class="form-control" placeholder="Street" id="street" name="street" ngModel>
+    </div>
+    <div class="form-group">
+      <input type="text" class="form-control" placeholder="Suite" id="suite" name="suite" ngModel>
+    </div>
+    <div class="form-group">
+      <input type="text" class="form-control" placeholder="City" id="city" name="city" ngModel>
+    </div>
+    <div class="form-group">
+      <input type="text" class="form-control" placeholder="Zipcode" id="zipcode" name="zipcode" ngModel>
+    </div>
+    <div class="form-group">
+      <input type="text" class="form-control" placeholder="Phone" id="phone" name="phone" ngModel>
+    </div>
+    <div class="form-group">
+      <input type="text" class="form-control" placeholder="Website" id="website" name="website" ngModel>
+    </div>
+    <div class="form-group">
+      <input type="text" class="form-control" placeholder="Company" id="company" name="company" ngModel>
+    </div>
+    <div class="clearfix card-footer">
+      <button class="btn btn-danger float-left" type="button" (click)="onAddCancel(f)">Cancel</button>
+      <button type="submit" class="btn btn-success float-right">Add</button>
+    </div>
+  </form>
+</div>
+<br>

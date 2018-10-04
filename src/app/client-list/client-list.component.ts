@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../services/api.service';
 import { Client } from '../models/client';
 import { ClientService } from '../services/client.service';
 import { NgForm } from '@angular/forms';
+import { ClientDataService } from '../services/client-data.service';
 
 @Component({
   selector: 'app-client-list',
   templateUrl: './client-list.component.html',
   styleUrls: ['./client-list.component.css'],
-  providers: [ApiService]
+  providers: [ClientDataService]
 })
 export class ClientListComponent implements OnInit {
   errorMsg: Boolean = false;
@@ -19,7 +19,7 @@ export class ClientListComponent implements OnInit {
   currentPage: 1;
   newClient: Client;
 
-  constructor(private apiService: ApiService, private clientService: ClientService) { }
+  constructor(private clientService: ClientService, private clientData: ClientDataService) { }
 
   ngOnInit() {
     this.onPageChange(1);
@@ -30,7 +30,17 @@ export class ClientListComponent implements OnInit {
           this.totalPages = Math.ceil(this.totalClients / 10);
         }
       );
+  }
 
+  onPageChange(page) {
+    this.currentPage = page;
+    this.clientData.getClients(page).subscribe(
+      (clients) => {
+        this.addNew = false;
+        this.clients = clients;
+      },
+      (error) => { console.log(error); this.errorMsg = true; }
+    );
   }
 
   onAddNew(form: NgForm) {
@@ -49,7 +59,7 @@ export class ClientListComponent implements OnInit {
       website: data.website || '-',
       company: data.company || '-'
     });
-    this.apiService.createClient(this.newClient).subscribe(
+    this.clientData.addClient(this.newClient).subscribe(
       (newClient) => {
         this.addNew = false;
         if (this.currentPage === this.totalPages && this.clients.length === 10) {
@@ -65,7 +75,7 @@ export class ClientListComponent implements OnInit {
 
   onAddCancel(form: NgForm) {
     const data = form.value;
-    if (data.city || data.company || data.email || data.name || data.phone || data.street || data.suite || data.username || data.website || data.zipcode) {
+    if (form.dirty) {
       const r = confirm('Are you sure you want to cancel?');
       if (r === true) {
         form.reset();
@@ -76,17 +86,6 @@ export class ClientListComponent implements OnInit {
     } else {
       this.addNew = false;
     }
-  }
-
-  onPageChange(page) {
-    this.currentPage = page;
-    this.apiService.getAllClients(page).subscribe(
-      (clients) => {
-        this.addNew = false;
-        this.clients = clients;
-      },
-      (error) => { console.log(error); this.errorMsg = true; }
-    );
   }
 
   displayDetails(cl) {

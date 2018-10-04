@@ -20,10 +20,8 @@ export class ApiService {
     public getAllClients(page): Observable<Client[]> {
         return this.http.get(API_URL + '/clients?_page=' + page)
             .pipe(map(response => {
-                console.log(response);
                 this.clientService.totalItems.emit(response.headers.get('x-total-count').toString());
-                const clients = response.json().map((client) => new Client(client));
-                return clients;
+                return response.json().map((client) => new Client(client));;
             })).pipe(catchError(error => {
                 return throwError(error);
             }));
@@ -40,16 +38,25 @@ export class ApiService {
             }));
     }
 
-    // API: GET /clients/:id
-    public getClientById(clientId: number) {
-    }
-
     // API: PUT /clients/:id
     public updateClient(client: Client) {
+        return this.http
+        .put(API_URL + '/clients/' + client.id, client)
+        .pipe(map(response => {
+          return new Client(response.json());
+        }))
+        .pipe(catchError(error => {
+            return throwError(error);
+        }));
     }
 
     // DELETE /clients/:id
     public deleteClientById(clientId: number) {
+        return this.http
+            .delete(API_URL + '/clients/' + clientId)
+            .pipe(map(response => null)).pipe(catchError(error => {
+                return throwError(error);
+            }));
     }
 
 }

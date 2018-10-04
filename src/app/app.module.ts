@@ -20,6 +20,7 @@ import { ClientListComponent } from './client-list/client-list.component';
 import { ClientDetailsComponent } from './client-details/client-details.component';
 import { ApiService } from './services/api.service';
 import { ClientService } from './services/client.service';
+import { ClientDataService } from './services/client-data.service';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,7 @@ import { ClientService } from './services/client.service';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule
   ],
-  providers: [AuthService, AuthGuard, ApiService, ClientService],
+  providers: [AuthService, AuthGuard, ApiService, ClientService, ClientDataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
