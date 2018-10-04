@@ -12,6 +12,8 @@ import { ClientService } from '../services/client.service';
 export class ClientListComponent implements OnInit {
   errorMsg: Boolean = false;
   clients: Client[] = [];
+  totalClients: number;
+  totalPages: number;
 
   constructor(private apiService: ApiService, private clientService: ClientService) { }
 
@@ -22,6 +24,14 @@ export class ClientListComponent implements OnInit {
       },
       (error) => { console.log(error); this.errorMsg = true; }
     );
+    this.clientService.totalItems
+      .subscribe(
+        (total: String) => {
+          this.totalClients = parseInt(total.toString(), 10);
+          this.totalPages = Math.ceil(this.totalClients / 10);
+        }
+      );
+
   }
 
   displayDetails(cl) {
