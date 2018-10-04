@@ -4,6 +4,7 @@ import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { ContactComponent } from './contact/contact.component';
 import { AuthGuard } from './services/auth-guard.service';
+import { ClientDetailsComponent } from './client-details/client-details.component';
 
 const appRoutes: Routes = [
     { path: 'login', component: LoginComponent },

@@ -31,6 +31,13 @@ export class ApiService {
 
     // API: POST /clients
     public createClient(client: Client) {
+        return this.http
+            .post(API_URL + '/clients', client)
+            .pipe(map(response => {
+                return new Client(response.json());
+            })).pipe(catchError(error => {
+                return throwError(error);
+            }));
     }
 
     // API: GET /clients/:id
