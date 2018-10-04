@@ -14,16 +14,11 @@ export class ClientListComponent implements OnInit {
   clients: Client[] = [];
   totalClients: number;
   totalPages: number;
-
+  currentPage: 1;
   constructor(private apiService: ApiService, private clientService: ClientService) { }
 
   ngOnInit() {
-    this.apiService.getAllClients(1).subscribe(
-      (clients) => {
-        this.clients = clients;
-      },
-      (error) => { console.log(error); this.errorMsg = true; }
-    );
+    this.onPageChange(1);
     this.clientService.totalItems
       .subscribe(
         (total: String) => {
@@ -32,6 +27,16 @@ export class ClientListComponent implements OnInit {
         }
       );
 
+  }
+
+  onPageChange(page) {
+    this.currentPage = page;
+    this.apiService.getAllClients(page).subscribe(
+      (clients) => {
+        this.clients = clients;
+      },
+      (error) => { console.log(error); this.errorMsg = true; }
+    );
   }
 
   displayDetails(cl) {
