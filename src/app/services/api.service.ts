@@ -21,7 +21,7 @@ export class ApiService {
         return this.http.get(API_URL + '/clients?_page=' + page)
             .pipe(map(response => {
                 this.clientService.totalItems.emit(response.headers.get('x-total-count').toString());
-                return response.json().map((client) => new Client(client));;
+                return response.json().map((client) => new Client(client));
             })).pipe(catchError(error => {
                 return throwError(error);
             }));

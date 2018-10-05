@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-md-6">
-    <app-client-list></app-client-list>
+    <app-client-list [deletedClient]="deletedClient" [updatedClient]="updatedClient"></app-client-list>
   </div>
   <div class="col-md-6">
     <app-client-details *ngIf="selectedClient; else infoText" [client]="selectedClient"></app-client-details>

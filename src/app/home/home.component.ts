@@ -10,6 +10,7 @@ import { Client } from '../models/client';
 export class HomeComponent implements OnInit {
   selectedClient: Client;
   deletedClient: number;
+  updatedClient: boolean;
 
   constructor(private clientService: ClientService) { }
 
@@ -17,12 +18,21 @@ export class HomeComponent implements OnInit {
     this.clientService.clientSelected
       .subscribe(
         (client: Client) => {
-          this.selectedClient = client;
+          if (client) {
+            this.selectedClient = client;
+          } else {
+            this.selectedClient = null;
+          }
         }
       );
     this.clientService.deletedItem.subscribe(
       (deletedClient: number) => {
         this.deletedClient = deletedClient;
+      }
+    );
+    this.clientService.updatedItem.subscribe(
+      (updatedClient: boolean) => {
+        this.updatedClient = updatedClient;
       }
     );
   }

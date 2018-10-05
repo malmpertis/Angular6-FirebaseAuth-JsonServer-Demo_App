@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Client } from '../models/client';
 import { ClientDataService } from '../services/client-data.service';
 import { NgForm } from '@angular/forms';
+import { ClientService } from '../services/client.service';
 @Component({
   selector: 'app-client-details',
   templateUrl: './client-details.component.html',
@@ -14,10 +15,9 @@ export class ClientDetailsComponent implements OnInit {
   updatedClient: Client;
   @Input() client: Client;
 
-  constructor(private clientData: ClientDataService) { }
+  constructor(private clientData: ClientDataService, private clientService: ClientService) { }
 
   ngOnInit() {
-    this.clientBackUp = this.client;
   }
 
   onDeleteClient(id: number) {
@@ -25,6 +25,8 @@ export class ClientDetailsComponent implements OnInit {
     if (r === true) {
       this.clientData.deleteClientById(id).subscribe(
         (_) => {
+          this.clientService.clientSelected.emit(null);
+          this.clientService.deletedItem.emit(id);
         }
       );
     }
@@ -48,8 +50,10 @@ export class ClientDetailsComponent implements OnInit {
       company: data.company || '-'
     });
     this.clientData.updateClient(this.updatedClient).subscribe(
-      (updated) => {
+      (updated: Client) => {
         this.client = updated;
+        this.clientService.updatedItem.emit(true);
+        this.edit = false;
       }
     );
   }

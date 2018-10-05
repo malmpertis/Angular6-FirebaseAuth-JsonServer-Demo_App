@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChange, SimpleChanges } from '@angular/core';
 import { Client } from '../models/client';
 import { ClientService } from '../services/client.service';
 import { NgForm } from '@angular/forms';
@@ -10,7 +10,7 @@ import { ClientDataService } from '../services/client-data.service';
   styleUrls: ['./client-list.component.css'],
   providers: [ClientDataService]
 })
-export class ClientListComponent implements OnInit {
+export class ClientListComponent implements OnChanges {
   errorMsg: Boolean = false;
   addNew: Boolean;
   clients: Client[] = [];
@@ -18,11 +18,13 @@ export class ClientListComponent implements OnInit {
   totalPages: number;
   currentPage: 1;
   newClient: Client;
+  @Input() deletedClient: number;
+  @Input() updatedClient: Client;
 
   constructor(private clientService: ClientService, private clientData: ClientDataService) { }
 
-  ngOnInit() {
-    this.onPageChange(1);
+  ngOnChanges(changes: SimpleChanges) {
+    this.onPageChange(this.currentPage || 1);
     this.clientService.totalItems
       .subscribe(
         (total: String) => {
@@ -30,6 +32,11 @@ export class ClientListComponent implements OnInit {
           this.totalPages = Math.ceil(this.totalClients / 10);
         }
       );
+    const del = changes['deletedClient'];
+    if (del) {
+      this.clients = this.clients.filter((c) => c.id !== this.deletedClient);
+    }
+    console.log(changes);
   }
 
   onPageChange(page) {
