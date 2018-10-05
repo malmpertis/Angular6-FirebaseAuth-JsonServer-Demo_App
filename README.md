@@ -25,5 +25,5 @@ $ ng-serve
 ## Usefull Info?
 > Fake Data are stored on `db.json` file in the root directory.
 
-## License
+## License 
 MIT
